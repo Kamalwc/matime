@@ -75,7 +75,7 @@ body {
   }
   
   .input{
-    height: 50px;
+    height: 54px;
     width: 70%;
   }
   .time-block{
@@ -83,20 +83,19 @@ body {
   }
 
   .red{
-    background-color: rgb(173, 74, 74);
+    background-color: rgb(206, 83, 83);
   }
 
   .gray{
     background-color: rgb(143, 143, 143)
   }
   .green{
-    background-color: rgb(46, 173, 46)
+    background-color: rgb(87, 223, 87)
   }
   .saves{
     height: 54px;
     width: 49px;
     border-radius: 0px 17px 15px 0px;
-    /* position: absolute; */
   }
 
   label{
@@ -105,4 +104,11 @@ body {
     padding-top: 5px;
     border-top: 1px solid black;
 }
+
+  .longlabel{
+    margin-right:2px;
+  }
+
+  .contain{
+    margin: 0% 20%;
   }

@@ -6,101 +6,64 @@ var curh = moment().format('HH') //current hour
 var day = moment().format('ddd MMM DD');// day for colors
 var fullDay = moment().format('dddd, MMM DD'); // day for h1
 
+let obj = {} //local storage object
 
-$('#currentDay').text(fullDay);
-
-var hour = "23";
-console.log(cur);
-console.log(day + " " + hour + ":00:00");
-
-// ddd mmm dd 
-if( moment(day + " " + hour + ":00:00").isBefore(cur)){ 
-    console.log("succ")
-}else{
-    console.log("fail");
+if(!localStorage.getItem("obj")){
+    localStorage.setItem("obj", JSON.stringify(obj));
 }
 
-// console.log(moment( day + " " + timeBlock + ":00:00"));
-// console.log("current " + cur);
-
-
+$('#currentDay').text(fullDay); // changes text of H1
 
 //updates blocks color called every hour
-$(".input").each(function(i){
+setInterval($(".input").each(function(i){
     var timeBlock = $(this).attr("data-time");
-    // console.log(moment( day + " " + timeBlock + ":00:00"));
-    // console.log("current " + cur);
-
 
     if( timeBlock === curh){
         $(this).removeClass("green");
         $(this).addClass("red");
     }
-    //bugg
+    
     if( moment( day + " " + timeBlock + ":00:00").isBefore(cur) ){
-        // alert($(this));
-        
         $(this).removeClass("green");
         $(this).addClass("gray");
     }
-})
+}), 1000 * 60 * 60);
 
 
-let obj = {
-    "8pm":{ note:""},
-    "9pm":{ note:""},
-    "10pm":{ note:""},
-    "11pm":{ note:""},
-    "1am":{ note:""},
-    "2am":{ note:"erre"},
-    "3am":{ note:""},
-    "4am":{ note:""},
-}
-localStorage.setItem("obj", JSON.stringify(obj));
-
-let storedTasks = JSON.parse(localStorage.getItem("obj"));
 //when button is pressed but input in local storage 
 $(".timeBlock").on("click",".btn", function(){
     let time = $(this).attr("id");
+    let storedTasks = JSON.parse(localStorage.getItem("obj"));
 
-    storedTasks[time].note = $("." + time).val();
+    storedTasks[time] = $("." + time).val();
     localStorage.setItem("obj", JSON.stringify(storedTasks));
     renderTasks();
 });
 
 //render all local stoarage messages to respective input time blocks 
 function renderTasks(){
+    let storedTasks = JSON.parse(localStorage.getItem("obj"));
     $(".input").each(function(i){
         let time = $(this).attr("data-mrdn")
-        // console.log(time);
         
-        $(this).val(storedTasks[time].note);
-        // console.log(storedTasks[time].note);
-        
+        $(this).val(storedTasks[time]);
     });
 }
 
 renderTasks();
 
-
-// if time is 24 hrs clear call VVV
+// resets everything to default
 function clear(){
     localStorage.clear();
     $('.input').each(function(){
-        $(this).removeClass('.red')
-        $(this).removeClass('.gray')
-        $(this).addClass('.green')
+        $(this).val('');
+        $(this).removeClass('.red');
+        $(this).removeClass('.gray');
+        $(this).addClass('.green');
     });
 }
-// if(currentHour === 24){
-//     clear();
-// }
-$('#clear').on("click",function(){
-    alert("succes");
+
+if(currentHour === "24"){
     clear();
-})
+}
 
-// correct HTMl 
-
-// color bug / call every hour
-// clear bug 
