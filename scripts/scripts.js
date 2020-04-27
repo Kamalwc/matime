@@ -62,7 +62,6 @@ function clear(){
         $(this).addClass('.green');
     });
 }
-
 if(currentHour === "24"){
     clear();
 }
